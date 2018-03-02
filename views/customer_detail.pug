@@ -1,0 +1,18 @@
+extends layout
+
+block content
+
+  h1 Your Profile
+  
+  p #[strong First Name:] 
+    span #{customer.first_name} 
+
+
+  p #[strong Last Name:] 
+    span #{customer.last_name} 
+      
+  p #[strong Email:] 
+    span #{customer.email}
+
+  p
+    a(href=customer.url+'/update') Edit Profile

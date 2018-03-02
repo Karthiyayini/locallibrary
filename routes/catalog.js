@@ -7,6 +7,7 @@ var book_controller = require('../controllers/bookController');
 var author_controller = require('../controllers/authorController');
 var genre_controller = require('../controllers/genreController');
 var book_instance_controller = require('../controllers/bookinstanceController');
+var customer_controller = require('../controllers/customerController');
 
 
 /// BOOK ROUTES ///
@@ -117,6 +118,32 @@ router.get('/bookinstance/:id', book_instance_controller.bookinstance_detail);
 
 // GET request for list of all BookInstance.
 router.get('/bookinstances', book_instance_controller.bookinstance_list);
+
+// CUSTOMER ROUTES
+
+// GET request for creating Customer. NOTE This must come before route for id (i.e. display customer).
+router.get('/customer/create', customer_controller.customer_create_get);
+
+// POST request for creating customer.
+router.post('/customer/create', customer_controller.customer_create_post);
+
+// GET request for creating Customer. NOTE This must come before route for id (i.e. display customer).
+router.get('/customer/login', customer_controller.customer_login_get);
+
+// POST request for creating customer.
+router.post('/customer/login', customer_controller.customer_login_post);
+
+// GET request to update customer.
+router.get('/customer/:id/update', customer_controller.customer_update_get);
+
+// POST request to update customer.
+router.post('/customer/:id/update', customer_controller.customer_update_post);
+
+// GET request for one customer.
+router.get('/customer/:id', customer_controller.customer_detail);
+
+// GET request for list of all customer.
+router.get('/customer', customer_controller.customer_list);
 
 
 module.exports = router;
