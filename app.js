@@ -77,8 +77,11 @@ passport.use(new GoogleStrategy({
     clientSecret: 'Y-_0NI25yksxvPBA_A6hzh7L',
     callbackURL: "http://localhost:3000/catalog/auth/google/callback"
   },
-  function(accessToken, refreshToken, profile, done) {
-  	console.log(profile)
+  function(accessToken, refreshToken, profile, doneGoogle) {
+    // console.log(profile.emails)
+    // console.log(profile.emails[0]['value'])
+    doneGoogle(null, profile);
+
        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
        //   return done(err, user);
        // });
