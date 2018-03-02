@@ -10,11 +10,28 @@ var users = require('./routes/users');
 var catalog = require('./routes/catalog'); // Import routes for "catalog" area of site
 var compression = require('compression');
 var helmet = require('helmet');
+var session = require("express-session");
+var passport = require("passport");
+
 
 // Create the Express application object
 var app = express();
 
 app.use(helmet());
+
+bodyParser = require("body-parser");
+
+app.use(express.static("public"));
+app.use(session({ secret: "cats" }));
+app.use(bodyParser.urlencoded({ extended: false }));
+passport.serializeUser((user, done) => {
+done(null, user);
+});
+passport.deserializeUser((obj, done) => {
+done(null, obj);
+});
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Set up mongoose connection
 var mongoose = require('mongoose');
@@ -24,6 +41,49 @@ mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+
+//facebook login
+var passport = require('passport')
+  , FacebookStrategy = require('passport-facebook').Strategy;
+
+passport.use(new FacebookStrategy({
+    clientID: '216703948878762',
+    clientSecret: 'eb0f2abd13bb17e7391485aa737af09b',
+    callbackURL: "http://localhost:3000/catalog/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    
+  	done(null, profile);
+    // User.findOrCreate(..., function(err, user) {
+    //   if (err) { return done(err); }
+    //   done(null, user);
+    // });
+  }
+));
+
+
+//google
+
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+// Use the GoogleStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, an accessToken, refreshToken, and Google
+//   profile), and invoke a callback with a user object.
+passport.use(new GoogleStrategy({
+    clientID: '215450226766-7ihsaasfnbqn1gr6c41c41hh235kdvgs.apps.googleusercontent.com',
+    clientSecret: 'Y-_0NI25yksxvPBA_A6hzh7L',
+    callbackURL: "http://localhost:3000/catalog/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+  	console.log(profile)
+       // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+       //   return done(err, user);
+       // });
+  }
+));
 
 
 // View engine setup

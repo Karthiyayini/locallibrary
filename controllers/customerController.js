@@ -12,6 +12,33 @@ exports.customer_list = function(req, res, next) {
     res.send('NOT IMPLEMENTED: Customer list');
 };
 
+exports.facebookData = function(req, res, next){
+        console.log(req.session.passport.user)
+        var fb_id = req.session.passport.user.id;
+        var name = req.session.passport.user.displayName;
+        var email = req.session.passport.user.id + "@email.com";
+        
+
+
+
+        var customer = new Customer(
+                {
+                    first_name: name,
+                    last_name: '',
+                    email : email,
+                    fb_id : fb_id
+                });
+            customer.save(function (err) {
+                if (err) { return next(err); }
+                // Successful - redirect to new customer record.
+                // req.session.email = req.body.email;
+                req.session.loggedin = true;
+                res.redirect(customer.url);
+            });
+
+
+
+};
 // Display detail page for a specific customer.
 exports.customer_detail = function(req, res, next) {
      Customer.findById(req.params.id)
