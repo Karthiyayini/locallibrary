@@ -13,7 +13,7 @@ var customer_controller = require('../controllers/customerController');
 /// BOOK ROUTES ///
 
 // GET catalog home page.
-router.get('/', book_controller.index);  
+router.get('/', customer_controller.customer_create_get);  
 
 // GET request for creating a Book. NOTE This must come before routes that display Book (uses id).
 router.get('/book/create', book_controller.book_create_get);
