@@ -12,6 +12,7 @@ var compression = require('compression');
 var helmet = require('helmet');
 var session = require("express-session");
 var passport = require("passport");
+var LocalStrategy = require('passport-local').Strategy;
 
 
 // Create the Express application object
@@ -42,7 +43,11 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-
+// normal login
+var Account = require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 //facebook login
 var passport = require('passport')
   , FacebookStrategy = require('passport-facebook').Strategy;
@@ -124,6 +129,16 @@ app.use(function(err, req, res, next) {
   // Render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
 module.exports = app;
