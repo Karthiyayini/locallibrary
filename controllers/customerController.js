@@ -39,6 +39,34 @@ exports.facebookData = function(req, res, next){
 
 
 };
+
+exports.googleData = function(req, res, next){
+        console.log(req.session.passport.user)
+        var google_id = req.session.passport.user.id;
+        var name = req.session.passport.user.displayName;
+        var email = req.session.passport.user.emails[0]['value'];
+        
+
+
+
+        var customer = new Customer(
+                {
+                    first_name: name,
+                    last_name: '',
+                    email : email,
+                    google_id : google_id
+                });
+            customer.save(function (err) {
+                if (err) { return next(err); }
+                // Successful - redirect to new customer record.
+                // req.session.email = req.body.email;
+                req.session.loggedin = true;
+                res.redirect(customer.url);
+            });
+
+
+
+};
 // Display detail page for a specific customer.
 exports.customer_detail = function(req, res, next) {
      Customer.findById(req.params.id)

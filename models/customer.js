@@ -9,6 +9,7 @@ var CustomerSchema = new Schema(
     last_name: {type: String,  max: 100},
     email: {type: String, required: true, max: 100},
     fb_id: {type: String, max: 100},
+    google_id: {type: String, max: 100},
   }
 );
 
