@@ -40,6 +40,9 @@ router.get('/book/:id', book_controller.book_detail);
 // GET request for list of all Book.
 router.get('/books', book_controller.book_list);
 
+//Get book details in api
+router.get('/books_details', book_controller.book_listApi);
+
 /// AUTHOR ROUTES ///
 
 // GET request for creating Author. NOTE This must come before route for id (i.e. display author).

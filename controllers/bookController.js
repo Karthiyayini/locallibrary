@@ -45,6 +45,28 @@ exports.book_list = function(req, res, next) {
 
 };
 
+// Display list of all books api.
+exports.book_listApi = function(req, res, next) {
+
+  Book.find({}, 'title author ')
+    .populate('author')
+    .exec(function (err, list_books) {
+      if (err) { return next(err); }
+      // Successful, so render
+        res.status(200).json({
+                          "status": 200,
+                           "message": "add Successful",
+                            "data": {
+                                "book_list": list_books,
+                            }
+                    });
+
+      
+    });
+
+};
+
+
 // Display detail page for a specific book.
 exports.book_detail = function(req, res, next) {
 
